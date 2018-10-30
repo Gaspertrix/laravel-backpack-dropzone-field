@@ -4,7 +4,11 @@ Add Dropzone support for [Laravel Backpack](https://laravel-backpack.readme.io/d
 
 ## Requirements
 - [Laravel Backpack](https://laravel-backpack.readme.io/docs)
+	- [Installation](https://laravel-backpack.readme.io/v3.4/docs/install-on-laravel-56 "Installation")
+	- [Getting Started](https://laravel-backpack.readme.io/v3.4/docs/1-welcome-6-min "Getting Started")
 - [Spatie Laravel Medialibrary](https://docs.spatie.be/laravel-medialibrary/v7/)
+	- [Installation & setup](https://docs.spatie.be/laravel-medialibrary/v7/installation-setup "Installation & setup")
+	- [Basic usage - Preparing your model](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/preparing-your-model "Basic usage - Preparing your model")
 
 ## Limitations
 Currently, you can only manage media while editing an entry.
