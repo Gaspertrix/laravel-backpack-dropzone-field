@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "backpack/crud": "*",
+        "backpack/crud": "^3.4.0",
         "spatie/laravel-medialibrary": "^7.0.0"
     },
     "require-dev": {
