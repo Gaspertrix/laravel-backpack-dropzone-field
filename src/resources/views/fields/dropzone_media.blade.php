@@ -138,7 +138,7 @@
 								notification_type = 'error';
 							}
 
-							new PNotify({
+							new Noty({
 								text: response.message,
 								type: notification_type,
 								icon: false
@@ -151,7 +151,7 @@
 								message = xhr.responseJSON.message;
 							}
 
-							new PNotify({
+							new Noty({
 								text: message,
 								type: 'error',
 								icon: false
@@ -197,7 +197,7 @@
 									message = response.message;
 								}
 
-								new PNotify({
+								new Noty({
 									text: message,
 									type: 'error',
 									icon: false
@@ -213,7 +213,7 @@
 								message = xhr.responseJSON.message;
 							}
 
-							new PNotify({
+							new Noty({
 								text: message,
 								type: 'error',
 								icon: false
