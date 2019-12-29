@@ -4,7 +4,7 @@ namespace Gaspertrix\Backpack\DropzoneField\App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
-use Backpack\Base\app\Console\Commands\Install as BaseInstall;
+use Backpack\CRUD\app\Console\Commands\Install as BaseInstall;
 
 class Install extends BaseInstall
 {
