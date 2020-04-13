@@ -1,11 +1,11 @@
-# laravel-backpack-dropzone-field
+# Backpack Dropzone field
 
 Add Dropzone support for [Laravel Backpack](https://laravel-backpack.readme.io/docs).
 
 ## Requirements
 - [Laravel Backpack](https://laravel-backpack.readme.io/docs)
-	- [Installation](https://laravel-backpack.readme.io/v3.4/docs/install-on-laravel-56 "Installation")
-	- [Getting Started](https://laravel-backpack.readme.io/v3.4/docs/1-welcome-6-min "Getting Started")
+	- [Installation](https://backpackforlaravel.com/docs/4.0/installation "Installation")
+	- [Getting Started](https://backpackforlaravel.com/docs/4.0/introduction "Getting Started")
 - [Spatie Laravel Medialibrary](https://docs.spatie.be/laravel-medialibrary/v7/)
 	- [Installation & setup](https://docs.spatie.be/laravel-medialibrary/v7/installation-setup "Installation & setup")
 	- [Basic usage - Preparing your model](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/preparing-your-model "Basic usage - Preparing your model")
@@ -43,6 +43,7 @@ use Gaspertrix\Backpack\DropzoneField\Traits\HandleAjaxMedia;
 
 class EntityCrudController extends CrudController
 {
+	...
     use HandleAjaxMedia;
 
 	...
@@ -52,18 +53,17 @@ class EntityCrudController extends CrudController
 
 ### Routes
 
-In your routes file, you have to add additionals routes in your `CRUD::resource`.
+In your routes file, you have to add additionals routes.
 
  ```php
  <?php
 
 ...
 
-CRUD::resource('entity', 'EntityCrudController')->with(function () {
-    Route::match(['post'], 'entity/{id}/media', 'EntityCrudController@uploadMedia');
-    Route::match(['delete'], 'entity/{id}/media/{mediaId}', 'EntityCrudController@deleteMedia');
-    Route::match(['post'], 'entity/{id}/media/reorder', 'EntityCrudController@reorderMedia');
-});
+Route::crud('entity', 'EntityCrudController')
+Route::post('entity/{id}/media', 'EntityCrudController@uploadMedia');
+Route::delete('entity/{id}/media/{mediaId}', 'EntityCrudController@deleteMedia');
+Route::post('entity/{id}/media/reorder', 'EntityCrudController@reorderMedia');
 
 ...
  ```
@@ -90,21 +90,22 @@ Example:
 <?php
 
 ...
-
-$this->crud->addField([
-	'label' => 'Photos',
-	'type' => 'dropzone_media',
-	'name' => 'photos',
-	'collection' => 'photos',
-	'thumb_collection' => 'thumbs',
-	'options' => [
-		'thumbnailHeight' => 120,
-		'thumbnailWidth' => 120,
-		'maxFilesize' => 10,
-		'addRemoveLinks' => true,
-		'createImageThumbnails' => true,
-	],
-], 'update');
+$this->crud->operation(['update'], function() {
+	$this->crud->addField([
+		'label' => 'Photos',
+		'type' => 'dropzone_media',
+		'name' => 'photos',
+		'collection' => 'photos',
+		'thumb_collection' => 'thumbs',
+		'options' => [
+			'thumbnailHeight' => 120,
+			'thumbnailWidth' => 120,
+			'maxFilesize' => 10,
+			'addRemoveLinks' => true,
+			'createImageThumbnails' => true,
+		],
+	]);
+});
 
 ...
 ```
