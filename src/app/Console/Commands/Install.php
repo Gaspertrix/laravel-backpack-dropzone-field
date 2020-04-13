@@ -49,10 +49,16 @@ class Install extends BaseInstall
         $this->progressBar->advance();
 
         $this->line(' Publishing assets');
-        $this->executeProcess('php artisan vendor:publish --provider="Gaspertrix\Backpack\DropzoneField\DropzoneFieldServiceProvider" --tag="public"');
+        $this->executeArtisanProcess('vendor:publish', [
+            '--provider' => 'Gaspertrix\Backpack\DropzoneField\DropzoneFieldServiceProvider',
+            '--tag' => 'public',
+        ]);
 
         $this->line(' Publishing views');
-        $this->executeProcess('php artisan vendor:publish --provider="Gaspertrix\Backpack\DropzoneField\DropzoneFieldServiceProvider" --tag="views"');
+        $this->executeArtisanProcess('vendor:publish', [
+            '--provider' => 'Gaspertrix\Backpack\DropzoneField\DropzoneFieldServiceProvider',
+            '--tag' => 'views',
+        ]);
 
         $this->progressBar->finish();
         $this->info(" Gaspertrix\Backpack\DropzoneField successfully installed.");
