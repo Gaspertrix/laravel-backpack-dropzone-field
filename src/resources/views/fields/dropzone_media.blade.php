@@ -70,9 +70,8 @@
 
 @push('crud_fields_scripts')
 	<script type="text/javascript">
+		Dropzone.autoDiscover = false;
 		jQuery(document).ready(function() {
-			Dropzone.autoDiscover = false;
-
 			var dOptions = {
 				url: "{{ url($crud->route . '/' . $entry->id . '/media') }}",
 				previewTemplate: '{!! str_replace(array("\r\n", "\r", "\n"), "", addslashes(View::getSection("previewTemplate"))); !!}',
