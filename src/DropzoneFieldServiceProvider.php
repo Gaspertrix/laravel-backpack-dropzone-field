@@ -29,6 +29,16 @@ class DropzoneFieldServiceProvider extends ServiceProvider
 
         // Load translations
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dropzone');
+
+        // Load custom views first
+        $customViewsFolder = resource_path('views/vendor/gaspertrix/laravel-backpack-dropzone-field');
+
+        if (file_exists($customViewsFolder)) {
+            $this->loadViewsFrom($customViewsFolder, 'dropzone');
+        }
+
+        // Load default views
+        $this->loadViewsFrom(__DIR__ .  '/resources/views', 'dropzone');
     }
 
     /**
