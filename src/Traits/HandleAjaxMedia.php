@@ -22,7 +22,7 @@ trait HandleAjaxMedia
 
         return response()->json([
             'success' => true,
-            'message' => 'Media successfully uploaded',
+            'message' => __('dropzone::messages.media_successfully_uploaded'),
             'media' => $media,
         ]);
     }
@@ -42,7 +42,7 @@ trait HandleAjaxMedia
 
         return response()->json([
             'success' => true,
-            'message' => 'Media successfully deleted'
+            'message' => __('dropzone::messages.media_successfully_deleted'),
         ]);
     }
 
@@ -58,7 +58,8 @@ trait HandleAjaxMedia
         Media::setNewOrder($request->input('ids'));
 
         return response()->json([
-            'success' => true
+            'success' => true,
+            'message' => __('dropzone::messages.media_successfully_reordered'),
         ]);
     }
 }

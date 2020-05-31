@@ -21,11 +21,14 @@ class DropzoneFieldServiceProvider extends ServiceProvider
             $this->commands($this->commands);
         }
 
-        // publish field
+        // Publish field
         $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/backpack/crud')], 'views');
 
-        // publish public assets
+        // Publish public assets
         $this->publishes([__DIR__ . '/public' => public_path('vendor/gaspertrix/laravel-backpack-dropzone-field')], 'public');
+
+        // Load translations
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dropzone');
     }
 
     /**

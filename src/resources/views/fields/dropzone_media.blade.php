@@ -44,7 +44,7 @@
 	<strong>{{ $field['label'] }}</strong> <br>
 	<div id="dropzone_{{ $field['name'] }}" class="dropzone dz-clickable sortable">
 	    <div class="dz-message">
-	    	Drop files here or click to upload.
+	    	{{ __('dropzone::messages.drop_files_orclick_to_upload') }}
 	    </div>
 	</div>
 </div>
@@ -70,18 +70,22 @@
 
 @push('crud_fields_scripts')
 	<script type="text/javascript">
+		Dropzone.autoDiscover = false;
+		
 		jQuery(document).ready(function() {
-			Dropzone.autoDiscover = false;
+			var dBaseUrl = '{{ url($crud->route . '/' . $entry->id . '/media') }}';
 
 			var dOptions = {
-				url: "{{ url($crud->route . '/' . $entry->id . '/media') }}",
+				url: dBaseUrl,
 				previewTemplate: '{!! str_replace(array("\r\n", "\r", "\n"), "", addslashes(View::getSection("previewTemplate"))); !!}',
 				init: function() {
 					var files = [];
 
-					@foreach ($entry->getMedia($field['collection']) as $media)
-					files.push({id: {{ $media->id }}, order_column: {{ $media->order_column }}, size: "{{ $media->size }}", name: "{{ $media->file_name }}", full_url: "{{ $media->getUrl() }}", thumb_url: "{{ $media->getUrl($field['thumb_collection'] ?? '') }}"});
-					@endforeach
+					@if (!empty($entry))
+						@foreach ($entry->getMedia($field['collection']) as $media)
+						files.push({id: {{ $media->id }}, order_column: {{ $media->order_column }}, size: "{{ $media->size }}", name: "{{ $media->file_name }}", full_url: "{{ $media->getUrl() }}", thumb_url: "{{ $media->getUrl($field['thumb_collection'] ?? '') }}"});
+						@endforeach
+					@endif
 
 					for (var i = 0; i < files.length; i++) {
 						var file = files[i];
@@ -121,7 +125,7 @@
 		        removedfile: function(file) {
 		        	if (typeof file.media != 'undefined') {
 		        		$.ajax({
-							url: "{{ url($crud->route . '/' . $entry->id . '/media') }}" + '/' + file.media.id,
+							url: dBaseUrl + '/' + file.media.id,
 							type: 'DELETE'
 						})
 						.done(function(response) {
@@ -142,10 +146,10 @@
 								text: response.message,
 								type: notification_type,
 								icon: false
-							});
+							}).show();
 						})
 						.fail(function (xhr) {
-							var message = 'Deletion failed';
+							var message = '{{ __('dropzone::messages.deletion_failed') }}';
 
 							if (xhr.responseJSON != 'undefined' && xhr.responseJSON.message != 'undefined') {
 								message = xhr.responseJSON.message;
@@ -155,7 +159,7 @@
 								text: message,
 								type: 'error',
 								icon: false
-							});
+							}).show();
 						});
 
 						return this._updateMaxFilesReachedClass();
@@ -181,7 +185,7 @@
 
 	            	if (ids.length > 0) {
 	            		$.ajax({
-							url: "{{ url($crud->route . '/' . $entry->id . '/media/reorder') }}",
+							url: dBaseUrl + '/reorder',
 							type: 'POST',
 							data: {
 								ids: ids
@@ -190,24 +194,21 @@
 						.done(function(response) {
 							var notification_type;
 
-							if (response.success != true) {
-								var message = 'Order failed';
-
-								if (response.message != 'undefined') {
-									message = response.message;
-								}
-
-								new Noty({
-									text: message,
-									type: 'error',
-									icon: false
-								});
+							if (response.success == true) {
+								notification_type = 'success';
+							}
+							else {
+								notification_type = 'error';
 							}
 
-				
+							new Noty({
+								text: response.message,
+								type: notification_type,
+								icon: false
+							}).show();
 						})
 						.fail(function (xhr) {
-							var message = 'Order failed';
+							var message = '{{ __('dropzone::messages.ordering_failed') }}';
 
 							if (xhr.responseJSON != 'undefined' && xhr.responseJSON.message != 'undefined') {
 								message = xhr.responseJSON.message;
@@ -217,7 +218,7 @@
 								text: message,
 								type: 'error',
 								icon: false
-							});
+							}).show();
 						});
 	            	}
 	            }
