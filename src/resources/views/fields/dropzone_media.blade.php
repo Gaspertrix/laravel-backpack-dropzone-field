@@ -71,7 +71,7 @@
 @push('crud_fields_scripts')
 	<script type="text/javascript">
 		Dropzone.autoDiscover = false;
-		
+
 		jQuery(document).ready(function() {
 			var dBaseUrl = '{{ url($crud->route . '/' . $entry->id . '/media') }}';
 
