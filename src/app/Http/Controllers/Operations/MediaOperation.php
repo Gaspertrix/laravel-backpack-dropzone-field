@@ -1,14 +1,12 @@
 <?php
 
-namespace Gaspertrix\Backpack\DropzoneField\App\Http\Controllers\Operations;
+namespace Gaspertrix\LaravelBackpackDropzoneField\App\Http\Controllers\Operations;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Gaspertrix\Backpack\DropzoneField\Traits\HandleAjaxMedia;
 
 trait MediaOperation
 {
-    use HandleAjaxMedia;
-
     /**
      * Define which routes are needed for this operation.
      *
@@ -24,7 +22,7 @@ trait MediaOperation
             'operation' => 'media',
         ]);
 
-        Route::delete($segment.'/{id}/media/{mediaId}', [
+        Route::delete($segment.'/{id}/media', [
             'as'        => $routeName.'.deleteMedia',
             'uses'      => $controller.'@deleteMedia',
             'operation' => 'media',
@@ -43,5 +41,63 @@ trait MediaOperation
     protected function setupMediaDefaults()
     {
         
+    }
+
+    /**
+     * Add file from the current request to the medialibrary
+     *
+     * @param  Request $request [description]
+     * @param  int $id [description]
+     * @return [type]           [description]
+     */
+    public function uploadMedia(Request $request, $id)
+    {
+        $entry = $this->crud->getEntry($id);
+        $media = $entry->addMediaFromRequest('file')->toMediaCollection($request->input('collection'));
+
+        return response()->json([
+            'success' => true,
+            'message' => __('dropzone::messages.media_successfully_uploaded'),
+            'media' => $media,
+        ]);
+    }
+
+    /**
+     * Delete file from the medialibrary
+     *
+     * @param  Request $request [description]
+     * @param  int $id [description]
+     * @return [type]           [description]
+     */
+    public function reorderMedia(Request $request, $id)
+    {
+        $mediaClass = config('medialibrary.media_model');
+        $mediaClass::setNewOrder($request->input('ids'));
+
+        return response()->json([
+            'success' => true,
+            'message' => __('dropzone::messages.media_successfully_reordered'),
+        ]);
+    }
+
+    /**
+     * Delete file from the medialibrary
+     *
+     * @param  Request $request [description]
+     * @param  int $id [description]
+     * @return [type]           [description]
+     */
+    public function deleteMedia(Request $request, $id)
+    {
+        $mediaId = $request->input('media_id');
+        $mediaClass = config('medialibrary.media_model');
+        
+        $media = $mediaClass::findOrFail($mediaId);
+        $media->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => __('dropzone::messages.media_successfully_deleted'),
+        ]);
     }
 }

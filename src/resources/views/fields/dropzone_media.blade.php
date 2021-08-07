@@ -44,7 +44,7 @@
 	<strong>{{ $field['label'] }}</strong> <br>
 	<div id="dropzone_{{ $field['name'] }}" class="dropzone dz-clickable sortable">
 	    <div class="dz-message">
-	    	{{ __('dropzone::messages.drop_files_orclick_to_upload') }}
+	    	{{ __('dropzone::messages.drop_files_or_click_to_upload') }}
 	    </div>
 	</div>
 </div>
@@ -125,8 +125,11 @@
 		        removedfile: function(file) {
 		        	if (typeof file.media != 'undefined') {
 		        		$.ajax({
-							url: dBaseUrl + '/' + file.media.id,
-							type: 'DELETE'
+							url: dBaseUrl,
+							type: 'DELETE',
+							data: {
+								media_id: file.media.id
+							}
 						})
 						.done(function(response) {
 							var notification_type;

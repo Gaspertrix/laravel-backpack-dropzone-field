@@ -1,13 +1,14 @@
 <?php
 
-namespace Gaspertrix\Backpack\DropzoneField;
+namespace Gaspertrix\LaravelBackpackDropzoneField;
 
+use Gaspertrix\LaravelBackpackDropzoneField\App\Console\Commands\Install;
 use Illuminate\Support\ServiceProvider;
 
 class DropzoneFieldServiceProvider extends ServiceProvider
 {
     protected $commands = [
-        \Gaspertrix\Backpack\DropzoneField\App\Console\Commands\Install::class,
+        Install::class,
     ];
 
     /**
@@ -22,7 +23,7 @@ class DropzoneFieldServiceProvider extends ServiceProvider
         }
 
         // Publish field
-        $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/backpack/crud')], 'views');
+        $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/gaspertrix/laravel-backpack-dropzone-field')], 'views');
 
         // Publish public assets
         $this->publishes([__DIR__ . '/public' => public_path('vendor/gaspertrix/laravel-backpack-dropzone-field')], 'public');

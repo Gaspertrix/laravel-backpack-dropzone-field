@@ -1,13 +1,14 @@
 <?php
 
-namespace Gaspertrix\Backpack\DropzoneField\App\Console\Commands;
+namespace Gaspertrix\LaravelBackpackDropzoneField\App\Console\Commands;
 
+use Backpack\CRUD\app\Console\Commands\Traits\PrettyCommandOutput;
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
-use Backpack\CRUD\app\Console\Commands\Install as BaseInstall;
 
-class Install extends BaseInstall
+class Install extends Command
 {
+    use PrettyCommandOutput;
+
     protected $progressBar;
 
     /**
@@ -16,51 +17,40 @@ class Install extends BaseInstall
      * @var string
      */
     protected $signature = 'gaspertrix:backpack:dropzone:install
-                                {--timeout=300 : How many seconds to allow each process to run.}
-                                {--debug : Show process output or not. Useful for debugging. }';
+                                {--timeout=300} : How many seconds to allow each process to run.
+                                {--debug} : Show process output or not. Useful for debugging.';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publish assets for Dropzone field';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Publish assets for Dropzone field.';
 
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return mixed Command-line output
      */
     public function handle()
     {
         $this->progressBar = $this->output->createProgressBar(2);
+        $this->progressBar->minSecondsBetweenRedraws(0);
+        $this->progressBar->maxSecondsBetweenRedraws(120);
+        $this->progressBar->setRedrawFrequency(1);
+
         $this->progressBar->start();
-        $this->info(' Gaspertrix\Backpack\DropzoneField installation started. Please wait...');
+
+        $this->info(' Gaspertrix\LaravelBackpackDropzoneField installation started. Please wait...');
         $this->progressBar->advance();
 
-        $this->line(' Publishing assets');
+        $this->line(' Publishing public assets');
         $this->executeArtisanProcess('vendor:publish', [
-            '--provider' => 'Gaspertrix\Backpack\DropzoneField\DropzoneFieldServiceProvider',
+            '--provider' => 'Gaspertrix\LaravelBackpackDropzoneField\DropzoneFieldServiceProvider',
             '--tag' => 'public',
         ]);
 
-        $this->line(' Publishing views');
-        $this->executeArtisanProcess('vendor:publish', [
-            '--provider' => 'Gaspertrix\Backpack\DropzoneField\DropzoneFieldServiceProvider',
-            '--tag' => 'views',
-        ]);
-
         $this->progressBar->finish();
-        $this->info(" Gaspertrix\Backpack\DropzoneField successfully installed.");
+        $this->info(' Gaspertrix\LaravelBackpackDropzoneField successfully installed');
     }
 }

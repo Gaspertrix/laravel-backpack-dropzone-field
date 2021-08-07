@@ -3,10 +3,10 @@
 Add Dropzone support for [Laravel Backpack](https://laravel-backpack.readme.io/docs).
 
 ## Requirements
-- [Laravel Backpack](https://laravel-backpack.readme.io/docs)
+- [Laravel Backpack v4](https://laravel-backpack.readme.io/docs)
 	- [Installation](https://backpackforlaravel.com/docs/4.0/installation "Installation")
 	- [Getting Started](https://backpackforlaravel.com/docs/4.0/introduction "Getting Started")
-- [Spatie Laravel Medialibrary](https://docs.spatie.be/laravel-medialibrary/v7/)
+- [Spatie Laravel Medialibrary v7](https://docs.spatie.be/laravel-medialibrary/v7/)
 	- [Installation & setup](https://docs.spatie.be/laravel-medialibrary/v7/installation-setup "Installation & setup")
 	- [Basic usage - Preparing your model](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/preparing-your-model "Basic usage - Preparing your model")
 
@@ -18,55 +18,42 @@ Currently, you can only manage media while editing an entry.
 ### Via Composer
 
 ``` bash
-composer require gaspertrix/laravel-backpack-dropzone-field
+composer require gaspertrix/laravel-backpack-dropzone-field:^3.0.0
 ```
 
-Publish assets:
+The package will automatically register itself.
+
+You must publish public assets:
 ``` bash
 php artisan gaspertrix:backpack:dropzone:install
+```
+
+You may publish views with:
+``` bash
+php artisan vendor:publish --provider="Gaspertrix\LaravelBackpackDropzoneField\DropzoneFieldServiceProvider" --tag="views"
 ```
 
 ## Usage
 
 ### EntityCrudController
 
-For simplicity add the `HandleAjaxMedia` trait to all EntityCrudController.
+For simplicity add the `MediaOperation` operation to EntityCrudController.
 
 ```php
 <?php
 
 ...
 
-use Gaspertrix\Backpack\DropzoneField\Traits\HandleAjaxMedia;
-
-...
 
 class EntityCrudController extends CrudController
 {
 	...
-    use HandleAjaxMedia;
+    use \Gaspertrix\LaravelBackpackDropzoneField\App\Http\Controllers\Operations\MediaOperation;
 
 	...
 }
 
 ```
-
-### Routes
-
-In your routes file, you have to add additionals routes.
-
- ```php
- <?php
-
-...
-
-Route::crud('entity', 'EntityCrudController')
-Route::post('entity/{id}/media', 'EntityCrudController@uploadMedia');
-Route::delete('entity/{id}/media/{mediaId}', 'EntityCrudController@deleteMedia');
-Route::post('entity/{id}/media/reorder', 'EntityCrudController@reorderMedia');
-
-...
- ```
 
 ### Field
 
@@ -75,6 +62,7 @@ Route::post('entity/{id}/media/reorder', 'EntityCrudController@reorderMedia');
 [
 	...
 	'type' => 'dropzone_media',
+	'view_namespace' => 'dropzone::fields',
 	'collection' => 'photos', // Media collection where files are added to
 	'thumb_collection' => 'thumbs', // Media collection where thumb are displayed from. If not set, 'collection' is used by default
 	'options' => [
@@ -94,6 +82,7 @@ $this->crud->operation(['update'], function() {
 	$this->crud->addField([
 		'label' => 'Photos',
 		'type' => 'dropzone_media',
+		'view_namespace' => 'dropzone::fields',
 		'name' => 'photos',
 		'collection' => 'photos',
 		'thumb_collection' => 'thumbs',
