@@ -29,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Gaspertrix\\Backpack\\DropzoneField\\": "src"
+            "Gaspertrix\\LaravelBackpackDropzoneField\\": "src"
         }
     },
     "autoload-dev": {
@@ -42,7 +42,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Gaspertrix\\Backpack\\DropzoneField\\DropzoneFieldServiceProvider"
+                "Gaspertrix\\LaravelBackpackDropzoneField\\DropzoneFieldServiceProvider"
             ]
         }
     }
