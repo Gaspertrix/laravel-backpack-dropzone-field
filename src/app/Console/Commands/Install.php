@@ -47,7 +47,7 @@ class Install extends Command
         $this->line(' Publishing public assets');
         $this->executeArtisanProcess('vendor:publish', [
             '--provider' => 'Gaspertrix\LaravelBackpackDropzoneField\DropzoneFieldServiceProvider',
-            '--tag' => 'public',
+            '--tag'      => 'public',
         ]);
 
         $this->progressBar->finish();

@@ -40,15 +40,15 @@ trait MediaOperation
      */
     protected function setupMediaDefaults()
     {
-        
     }
 
     /**
-     * Add file from the current request to the medialibrary
+     * Add file from the current request to the medialibrary.
      *
-     * @param  Request $request [description]
-     * @param  int $id [description]
-     * @return [type]           [description]
+     * @param Request $request [description]
+     * @param int     $id      [description]
+     *
+     * @return [type] [description]
      */
     public function uploadMedia(Request $request, $id)
     {
@@ -58,16 +58,17 @@ trait MediaOperation
         return response()->json([
             'success' => true,
             'message' => __('dropzone::messages.media_successfully_uploaded'),
-            'media' => $media,
+            'media'   => $media,
         ]);
     }
 
     /**
-     * Delete file from the medialibrary
+     * Delete file from the medialibrary.
      *
-     * @param  Request $request [description]
-     * @param  int $id [description]
-     * @return [type]           [description]
+     * @param Request $request [description]
+     * @param int     $id      [description]
+     *
+     * @return [type] [description]
      */
     public function reorderMedia(Request $request, $id)
     {
@@ -81,17 +82,18 @@ trait MediaOperation
     }
 
     /**
-     * Delete file from the medialibrary
+     * Delete file from the medialibrary.
      *
-     * @param  Request $request [description]
-     * @param  int $id [description]
-     * @return [type]           [description]
+     * @param Request $request [description]
+     * @param int     $id      [description]
+     *
+     * @return [type] [description]
      */
     public function deleteMedia(Request $request, $id)
     {
         $mediaId = $request->input('media_id');
         $mediaClass = config('medialibrary.media_model');
-        
+
         $media = $mediaClass::findOrFail($mediaId);
         $media->delete();
 

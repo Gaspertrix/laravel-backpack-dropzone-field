@@ -26,7 +26,7 @@ class DropzoneFieldServiceProvider extends ServiceProvider
         $this->publishes([__DIR__.'/resources/views' => resource_path('views/vendor/gaspertrix/laravel-backpack-dropzone-field')], 'views');
 
         // Publish public assets
-        $this->publishes([__DIR__ . '/public' => public_path('vendor/gaspertrix/laravel-backpack-dropzone-field')], 'public');
+        $this->publishes([__DIR__.'/public' => public_path('vendor/gaspertrix/laravel-backpack-dropzone-field')], 'public');
 
         // Load translations
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'dropzone');
@@ -39,7 +39,7 @@ class DropzoneFieldServiceProvider extends ServiceProvider
         }
 
         // Load default views
-        $this->loadViewsFrom(__DIR__ .  '/resources/views', 'dropzone');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'dropzone');
     }
 
     /**
