@@ -72,7 +72,7 @@ trait MediaOperation
      */
     public function reorderMedia(Request $request, $id)
     {
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = config('media-library.media_model');
         $mediaClass::setNewOrder($request->input('ids'));
 
         return response()->json([
@@ -92,7 +92,7 @@ trait MediaOperation
     public function deleteMedia(Request $request, $id)
     {
         $mediaId = $request->input('media_id');
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = config('media-library.media_model');
 
         $media = $mediaClass::findOrFail($mediaId);
         $media->delete();

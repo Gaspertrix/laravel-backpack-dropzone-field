@@ -19,11 +19,17 @@
             "email": "adrian@gaspertrix.com",
             "homepage": "https://www.gaspertrix.com/",
             "role": "Developer"
+        },
+        {
+            "name": "Hanlin Wang",
+            "email": "hanlin@r4ys.com",
+            "homepage": "https://r4ys.com/",
+            "role": "Developer"
         }
     ],
     "require": {
         "backpack/crud": "^4.0.0",
-        "spatie/laravel-medialibrary": "^7.0.0"
+        "spatie/laravel-medialibrary": "^9.0.0"
     },
     "require-dev": {
     },
